@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<script src="./node_modules/vue/dist/vue.js" type="text/javascript" charset="utf-8"></script>
+		<script src="./node_modules/vue-router/dist/vue-router.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.nav{
+				width: 200px;
+				height: 300px;
+				float: left;
+			}
+			.content{
+				width: 200px;
+				height: 300px;
+				float: left;
+			}
+			.router-link-active{
+				color: red;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<div class="nav">
+				<router-link to="/hello">hello</router-link><br>
+				<router-link to="/world">world</router-link>
+			</div>
+			
+			<div class="content">
+				<router-view></router-view>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		// 我们先定义两个全局组件出来
+		const hello = Vue.component('hello', {
+			template: "<div><span>hello</span></div>"
+		});
+		const world = Vue.component('world', {
+			template: "<div><span>world</span></div>"
+		});
+		
+		// 再然后创建一个路由器对象
+		const router = new VueRouter({
+			// 需要传入一个路由列表,这个 routes 接收数组数据
+			// 每个元素 route 里面包含两部分: path 和 component
+			routes: [
+				{
+					path: '/',
+					redirect: '/hello'
+				},
+				{
+					path: '/hello',
+					component: hello
+				},
+				{
+					path: '/world',
+					component: world
+				}
+			],
+			// 设置激活组件对应的类名,如果不设置的话,默认是 router-link-active
+			// 这里我们把对应的 类名改成了  active 
+			linkActiveClass: 'active',
+		});
+		
+		console.log(VueRouter);
+		
+		// 最后,我们把路由器对象配置到vue 实例里面去
+		new Vue({
+			el: '#app',
+			router
+		})
+	</script>
+</html>
